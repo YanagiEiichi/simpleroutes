@@ -1,0 +1,29 @@
+<script src="../simpleroutes.js"></script>
+<script src="bower_components/tester/tester.js"></script>
+<script>
+var expection = new Tester.Expection(
+  'enter a',
+  'enter b',
+  'leave b',
+  'leave a'
+);
+
+expection.then(function() {
+  Tester.feedback('ok');
+});
+
+SimpleRoutes.when('/a', function(scope) {
+  expection.answer('enter a');
+}, function(scope) {
+  expection.answer('leave a');
+});
+
+SimpleRoutes.when('/a/b', function(scope) {
+  expection.answer('enter b');
+}, function(scope) {
+  expection.answer('leave b');
+});
+
+SimpleRoutes.navigate('/a/b');
+history.back();
+</script>
