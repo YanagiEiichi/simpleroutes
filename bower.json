@@ -1,0 +1,17 @@
+{
+  "name": "simpleroutes",
+  "main": "simpleroutes.js",
+  "version": "0.0.0",
+  "authors": [
+    "YanagiEiichi <admin@web-tinker.com>"
+  ],
+  "description": "Simple Routes",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
