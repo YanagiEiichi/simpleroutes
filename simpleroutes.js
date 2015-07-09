@@ -17,11 +17,12 @@ void function() {
   };
 
   // 节点类
-  var Joint = function(context, routes, value) {
-    this.context = context = context || {};
-    this.routes = routes = routes || [];
+  var Joint = function(base, routes, value) {
+    var context = this.context = base.top().context || {};
+    this.routes = routes || [];
     this.value = value || '';
-    routes.forEach(function(route) { route.enter(context); });
+    base.push(this);
+    this.routes.forEach(function(route) { route.enter(context); });
   };
   Joint.prototype = {};
   Joint.prototype.destroy = function() {
@@ -31,15 +32,18 @@ void function() {
 
   // 路径类
   var Path = function() {};
-  Path.prototype = [ new Joint() ];
-  Path.prototype.top = function() { return this[this.length - 1]; };
+  Path.prototype = [];
+  Path.prototype.top = function() { return this[this.length - 1] || {}; };
   Path.prototype.add = function(routes, value) {
-    routes = (routes || []).filter(Route.filter);
-    this.push(new Joint(this.top().context, routes, value));
+    void new Joint(this, (routes || []).filter(Route.filter), value);
   };
   Path.prototype.cut = function(pos) {
-    while(this.length > pos) this.pop().destroy();
+    while(this.length > pos) {
+      this.top().destroy();
+      this.pop();
+    }
   };
+  void new Joint(Path.prototype); 
 
   // 堆
   var current = '';
