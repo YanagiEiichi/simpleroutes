@@ -56,6 +56,7 @@ void function() {
     SimpleRoutes.cut(start);
     for(var i = start; i < des.length; i++) SimpleRoutes.add(levels[i], des[i]);
     current = location.pathname;
+    emit('change');
   };
 
   // 接口抽象类
@@ -69,6 +70,20 @@ void function() {
   };
   SimpleRoutes.navigate = function(path) {
     history.pushState(null, null, path);
+  };
+
+  // 提供事件支持
+  var events = { change: [] };
+  var emit = function(name, args) {
+    var list = events[name];
+    list.forEach(function(handler) {
+      handler.apply(null, args);
+    });
+  };
+  SimpleRoutes.on = function(name, handler) {
+    var list = events[name];
+    if(!list) return;
+    list.push(handler);
   };
 
   // 初始化
