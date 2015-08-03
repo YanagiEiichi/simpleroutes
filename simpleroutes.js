@@ -87,7 +87,7 @@ void function() {
   };
 
   // 初始化
-  update();
+  addEventListener('DOMContentLoaded', update);
 
   // 劫持并绑定事件
   var pushState = history.pushState;
